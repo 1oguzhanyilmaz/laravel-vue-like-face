@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3acc3f96-8d70-4693-a1b3-5f9f4be4b426" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Post.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -186,7 +187,7 @@
       <updated>1590308568018</updated>
       <workItem from="1590308573555" duration="4065000" />
       <workItem from="1590337142212" duration="4882000" />
-      <workItem from="1590427990856" duration="4681000" />
+      <workItem from="1590427990856" duration="8515000" />
     </task>
     <servers />
   </component>
@@ -198,6 +199,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="115" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1590338508870" />
+    <state x="441" y="199" key="NewPhpClassDialog" timestamp="1590449646267">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="441" y="199" key="NewPhpClassDialog/0.0.1366.728@0.0.1366.728" timestamp="1590449646267" />
     <state x="431" y="177" key="com.intellij.ide.util.TipDialog" timestamp="1590427991711">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

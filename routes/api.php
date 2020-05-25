@@ -13,5 +13,6 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
 
+    Route::get('/posts', 'PostConttroller@index');
     Route::post('/posts', 'PostConttroller@store');
 });
