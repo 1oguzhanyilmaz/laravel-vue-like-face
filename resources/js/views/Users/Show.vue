@@ -1,5 +1,7 @@
 <template>
     <div class="flex flex-col items-center">
+
+        <!-- ### User Details ### -->
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden z-10">
                 <img src="https://source.unsplash.com/weekly?water" alt="user img" class="object-cover w-full">
@@ -13,6 +15,7 @@
             </div>
         </div>
 
+        <!-- ### User Posts ### -->
         <p v-if="postLoading">Loading posts...</p>
         <app-post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post"></app-post>
 
