@@ -1,6 +1,5 @@
 <template>
     <div class="flex flex-col items-center py-4">
-        <p>{{ newsStatus.newsPostsStatus }}</p>
         <app-new-post></app-new-post>
 
         <p v-if="newsStatus.postsStatus === 'loading'">Loading posts...</p>
@@ -25,7 +24,7 @@
         },
         computed: {
             ...mapGetters({
-                posts: 'newsPosts',
+                posts: 'posts',
                 newsStatus: 'newsStatus',
             }),
         }
