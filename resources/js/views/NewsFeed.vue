@@ -5,7 +5,7 @@
 
         <p v-if="newsStatus.postsStatus === 'loading'">Loading posts...</p>
 
-        <app-post v-for="post in posts.data" :key="post.data.post_id" :post="post"></app-post>
+        <app-post v-for="(post, postKey) in posts.data" :key="postKey" :post="post"></app-post>
     </div>
 </template>
 
