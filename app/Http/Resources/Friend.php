@@ -19,12 +19,24 @@ class Friend extends JsonResource
                 'type' => 'friend-request',
                 'friend_request_id' => $this->id,
                 'attributes' => [
-                    'cofirmed_at' => optional($this->confirmed_at)->diffForHumans(),
+                    'confirmed_at' => optional($this->confirmed_at)->diffForHumans(),
+                    'friend_id' => $this->friend_id,
+                    'user_id' => $this->user_id,
                 ]
             ],
             'links' => [
                 'self' => url('/users/'.$this->friend_id),
             ]
         ];
+    }
+
+    public static function friendship(){
+        return (new static())
+            ->whereNotNull('confirmed_at')
+            ->where(function ($query){
+                return $query->where('user_id', auth()->user()->id)
+                    ->orWhere('friend_id', auth()->user()->id);
+            })
+            ->get();
     }
 }

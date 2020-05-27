@@ -17,9 +17,13 @@ class CreateFriendsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('friend_id');
-            $table->tinyInteger('status')->nullable();;
-            $table->timestamps('confirmed_at')->nullable();;
-            $table->timestamps();
+            $table->tinyInteger('status')->nullable();
+//            $table->timestamps('confirmed_at');
+//            $table->timestamps();
+            $table->timestamp('confirmed_at')->nullable();
+            $table->nullableTimestamps();
+
+            $table->unique(['user_id', 'friend_id']);
         });
     }
 
