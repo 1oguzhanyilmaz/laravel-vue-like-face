@@ -38,6 +38,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function images(){
+        return $this->hasMany(UserImage::class);
+    }
+
+    public function coverImage(){
+        return $this->hasOne(UserImage::class)
+            ->orderByDesc('id')
+            ->where('location', 'cover')
+            ->withDefault(function ($userImage){
+                $userImage->path = 'user-images/default-cover-image.jpg';
+            });
+    }
+
+    public function profileImage(){
+        return $this->hasOne(UserImage::class)
+            ->orderByDesc('id')
+            ->where('location', 'profile')
+            ->withDefault(function ($userImage){
+                $userImage->path = 'user-images/default-profile-image.png';
+            });
+    }
+
     public function likedPosts(){
         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
     }

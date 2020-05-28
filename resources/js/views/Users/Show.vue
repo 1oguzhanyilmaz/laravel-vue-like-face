@@ -4,12 +4,28 @@
         <!-- ### User Details ### -->
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden z-10">
-                <img src="https://source.unsplash.com/weekly?water" alt="user img" class="object-cover w-full">
+                <app-upload-image
+                    image-width="1500"
+                    image-height="300"
+                    location="cover"
+                    alt="user background image"
+                    classes="object-cover w-full"
+                    :user-image="user.data.attributes.cover_image"
+                ></app-upload-image>
             </div>
 
             <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20">
                 <div class="w-32">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8aAprNBYJ0V0RG9lWxu6D4H7noO4yz6mpSD2n5E3Yr-vWphO_&usqp=CAU" alt="" class="w-32 h-32 border-4 border-gray-200 shadow-lg object-cover rounded-full">
+
+                    <app-upload-image
+                        image-width="1500"
+                        image-height="300"
+                        location="profile"
+                        alt="user profile image"
+                        classes="w-32 h-32 border-4 border-gray-200 shadow-lg object-cover rounded-full"
+                        :user-image="user.data.attributes.profile_image"
+                    ></app-upload-image>
+
                 </div>
                 <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
             </div>
@@ -45,12 +61,14 @@
 
 <script>
     import Post from "../../components/Post";
+    import UploadImage from "../../components/UploadImage";
     import { mapGetters } from 'vuex';
 
     export default {
         name: "Show",
         components: {
             'app-post': Post,
+            'app-upload-image': UploadImage,
         },
         mounted() {
             this.$store.dispatch('fetchUser', this.$route.params.userId);
