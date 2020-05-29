@@ -2040,6 +2040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_2__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2075,10 +2077,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NewPost",
+  data: function data() {
+    return {
+      dropzone: null
+    };
+  },
+  mounted: function mounted() {
+    this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_2___default.a(this.$refs.postImage, this.settings);
+  },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     authUser: 'authUser'
   })), {}, {
@@ -2092,8 +2118,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //     return this.$store.commit('updateMessage', postMessage);
       // },
 
+    },
+    settings: function settings() {
+      var _this = this;
+
+      var vm = this;
+      return {
+        paramName: 'image',
+        url: '/api/posts',
+        acceptedFiles: 'image/*',
+        clickable: '.dz-clickable',
+        autoProcessQueue: false,
+        maxFiles: 1,
+        previewsContainer: '.dropzone-previews',
+        previewTemplate: document.querySelector('#dz-template').innerHTML,
+        params: {
+          'width': 1000,
+          'height': 1000
+        },
+        headers: {
+          'X-CSRF-TOKEN': document.head.querySelector('meta[name=csrf-token]').content
+        },
+        sending: function sending(file, xhr, formData) {
+          formData.append('body', _this.$store.getters.postMessage);
+        },
+        success: function success(event, res) {
+          // alert('success');
+          vm.dropzone.removeAllFiles();
+          vm.$store.commit('pushPost', res);
+        },
+        maxfilesexceeded: function maxfilesexceeded(file) {
+          vm.dropzone.removeAllFiles();
+          vm.dropzone.addFile(file);
+        }
+      };
     }
-  })
+  }),
+  methods: {
+    postHandler: function postHandler() {
+      if (this.dropzone.getAcceptedFiles().length) {
+        // alert('We Have file...');
+        // console.log(this.dropzone);
+        this.dropzone.processQueue();
+      } else {
+        this.$store.dispatch('postMessage'); // alert('no file...');
+      }
+
+      this.$store.commit('updateMessage', '');
+    }
+  }
 });
 
 /***/ }),
@@ -42784,11 +42857,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "bg-gray-200 ml-2 px-3 py-1 rounded-full",
-                    on: {
-                      click: function($event) {
-                        return _vm.$store.dispatch("postMessage")
-                      }
-                    }
+                    on: { click: _vm.postHandler }
                   },
                   [_vm._v("\n                    Post\n                ")]
                 )
@@ -42802,14 +42871,15 @@ var render = function() {
         _c(
           "button",
           {
+            ref: "postImage",
             staticClass:
-              "flex justify-center items-center rounded-full w-10 h-10 bg-gray-200"
+              "dz-clickable flex justify-center items-center rounded-full w-10 h-10 bg-gray-200"
           },
           [
             _c(
               "svg",
               {
-                staticClass: "fill-current w-5 h-5",
+                staticClass: "dz-clickable fill-current w-5 h-5",
                 attrs: {
                   xmlns: "http://www.w3.org/2000/svg",
                   viewBox: "0 0 24 24"
@@ -42827,10 +42897,43 @@ var render = function() {
           ]
         )
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(0)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "dropzone-previews" }, [
+      _c("div", { staticClass: "hidden", attrs: { id: "dz-template" } }, [
+        _c("div", { staticClass: "dz-preview dz-file-preview mt-4" }, [
+          _c("div", { staticClass: "dz-details" }, [
+            _c("img", {
+              staticClass: "w-32 h-32",
+              attrs: { "data-dz-thumbnail": "" }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "text-xs", attrs: { "data-dz-remove": "" } },
+              [_vm._v("Remove")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dz-progress" }, [
+            _c("span", {
+              staticClass: "dz-upload",
+              attrs: { "data-dz-upload": "" }
+            })
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42888,7 +42991,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm.post.data.attributes.image
+      _vm.post.data.attributes.image.length
         ? _c("div", { staticClass: "w-full" }, [
             _c("img", {
               staticClass: "w-full",

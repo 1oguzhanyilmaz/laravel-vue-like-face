@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends JsonResource
 {
@@ -24,7 +25,7 @@ class Post extends JsonResource
                     'likes' => new LikeCollection($this->likes),
                     'comments' => new CommentCollection($this->comments),
                     'body' => $this->body,
-                    'image' => $this->image,
+                    'image' => ($this->image !== null) ? Storage::url($this->image) : '',
                     'posted_at' => $this->created_at->diffForHumans(),
                 ]
             ],
