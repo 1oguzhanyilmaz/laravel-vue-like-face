@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="imageObject.data.attributes.path"
+        <img :src="userImage.data.attributes.path"
              :alt="alt"
              ref="userImage"
              :class="classes">
@@ -10,6 +10,7 @@
 
 <script>
     import Dropzone from 'dropzone';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "UploadImage",
@@ -17,14 +18,18 @@
         data: function(){
             return {
                 dropzone: null,
-                uploadedImage: null,
             }
         },
         mounted(){
-            this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
-            console.log(this.dropzone);
+            if (this.authUser.data.user_id.toString() === this.$route.params.userId){
+                this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
+            }
+            // console.log(this.dropzone);
         },
         computed:{
+            ...mapGetters({
+                authUser: 'authUser',
+            }),
             settings(){
                 console.log(this.uploadedImage);
                 const vm = this;
@@ -47,17 +52,15 @@
                         // console.log(res);
                         // vm.uploadedImage = 'abc';
                         alert('Uploaded successfully!');
-                        vm.uploadedImage = res;
+                        // vm.uploadedImage = res;
+                        vm.$store.dispatch('fetchAuthUser');
+                        vm.$store.dispatch('fetchUser', vm.$route.params.userId);
+                        vm.$store.dispatch('fetchUserPosts', vm.$route.params.userId);
                         // console.log('uploaded in success');
                         // console.log(this.uploadedImage.attributes.path);
                     }
                 };
             },
-            imageObject(){
-                // console.log('Computed : uploaded image');
-                // console.log(this.uploadedImage);
-                return (this.uploadedImage !== null) ?  this.uploadedImage : this.userImage;
-            }
         }
     }
 </script>

@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <div class="w-8">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8aAprNBYJ0V0RG9lWxu6D4H7noO4yz6mpSD2n5E3Yr-vWphO_&usqp=CAU" alt="" class="w-8 h-8 object-cover rounded-full">
+                    <img :src="authUser.data.attributes.profile_image.data.attributes.path" alt="" class="w-8 h-8 object-cover rounded-full">
                 </div>
             </div>
 
@@ -29,10 +29,14 @@
 
 <script>
     import _ from 'lodash';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "NewPost",
         computed: {
+            ...mapGetters({
+                authUser: 'authUser',
+            }),
             postMessage: {
                 get(){
                     return this.$store.getters.postMessage;
